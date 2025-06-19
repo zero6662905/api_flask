@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, jsonify
 import requests
 import random
 
@@ -18,16 +18,13 @@ def breeds(url):
         print(f"Помилка запиту: {e}")
         return None
 
-@app.route('/')
-def home():
-    return render_template('index.html')
-
 @app.route('/breeds-dogs')
 def bree():
     breed = breeds(url)
     if breed is None:
-        return "Помилка: не вдалося отримати дані про породу", 500
-    return render_template("breeds.html", bre=breed)
+        return jsonify({"message":"Помилка: не вдалося отримати дані про породу", "status_code":404})
+    return jsonify(breed)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
