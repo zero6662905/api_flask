@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <h1>Mesanger</h1>
+
+
+    {% if current_user.is_authenticated %}
+    <p>Ви увійшли як {{ current_user.username }} | <a href="{{ url_for('logout') }}">Вийти</a></p>
+
+    {%else%}
+    <p>Ви не увійшли в систему. | <a href="{{ url_for('login') }}">Увійти</a> </p>
+
+    {% endif %}
+
+{% endblock content %}

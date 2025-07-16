@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <form method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <p>Текст повідомлення для {{for_user}}:</p>
+        <div class="container">
+        <textarea name="text"></textarea> <br>
+        <button type="submit">Відправити</button>
+        </div>
+    </form>
+
+{% endblock content %}

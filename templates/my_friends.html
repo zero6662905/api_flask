@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+ <h2>My Friends</h2>
+    {%for name in data%}
+        <div>
+            <p>{{name}}
+                <span><a class="btn btn-primary" href="/create_message/{{name}}">Написати повідомлення</a></span>
+            </p>
+    </div>
+    {%endfor%}
+    {% endblock content %}
