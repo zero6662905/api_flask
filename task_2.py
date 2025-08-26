@@ -11,13 +11,13 @@ from pydantic import BaseModel
 app = FastAPI(docs_url="/")
 
 
-# Модель для параметрів запиту
+
 class CalculateParams(BaseModel):
     operation: str
-    n: Optional[int] = None  # Для факторіалу
-    range_end: Optional[int] = None  # Для простих чисел
-    matrix_size: Optional[int] = None  # Для множення матриць
-    array_size: Optional[int] = None  # Для статистики масиву
+    n: Optional[int] = None
+    range_end: Optional[int] = None
+    matrix_size: Optional[int] = None
+    array_size: Optional[int] = None
 
 
 # Обмеження
@@ -25,17 +25,17 @@ MAX_FACTORIAL = 1000
 MAX_PRIME_RANGE = 1_000_000
 MAX_MATRIX_SIZE = 200
 MAX_ARRAY_SIZE = 10_000_000
-NUM_PROCESSES = 4  # Кількість процесів для великих завдань
+NUM_PROCESSES = 4
 
 
-# Функція для обчислення факторіалу
+
 def compute_factorial(n: int) -> int:
     if n < 0 or n > MAX_FACTORIAL:
         raise ValueError(f"Factorial is supported for 0 <= n <= {MAX_FACTORIAL}")
     return math_factorial(n)
 
 
-# Функція для знаходження простих чисел у діапазоні
+
 def sieve_of_eratosthenes_chunk(start: int, end: int) -> List[int]:
     sieve = [True] * (end - start + 1)
     for i in range(2, int(end ** 0.5) + 1):
@@ -58,7 +58,7 @@ def compute_primes(range_end: int) -> List[int]:
     return sorted(primes)
 
 
-# Функція для множення матриць
+
 def matrix_multiply(n: int) -> Dict[str, Any]:
     if n < 1 or n > MAX_MATRIX_SIZE:
         raise ValueError(f"Matrix size must be 1 <= n <= {MAX_MATRIX_SIZE}")
@@ -72,7 +72,7 @@ def matrix_multiply(n: int) -> Dict[str, Any]:
     }
 
 
-# Функція для обчислення статистики масиву
+
 def compute_array_stats_chunk(data: np.ndarray) -> Dict[str, float]:
     return {
         "mean": float(np.mean(data)),
@@ -91,7 +91,7 @@ def compute_array_stats(array_size: int) -> Dict[str, float]:
     with Pool(NUM_PROCESSES) as pool:
         results = pool.map(compute_array_stats_chunk, chunks)
 
-    # Агрегація результатів
+
     means = [r["mean"] for r in results]
     medians = [r["median"] for r in results]
     std_devs = [r["std_dev"] for r in results]
